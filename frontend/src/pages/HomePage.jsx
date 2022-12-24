@@ -8,7 +8,7 @@ import products from "../products";
 const HomePage = () => {
   return (
     <>
-      <h1>Latest Products</h1>
+      <h1 className="mb-4">Latest Products</h1>
       <Row>
         {products.map((product) => (
           <Col key={product._id} sm={12} md={6} xl={3} lg={4}>
