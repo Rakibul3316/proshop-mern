@@ -19,7 +19,12 @@ const ProductDetailsPage = () => {
       </Link>
       <Row>
         <Col md={6}>
-          <Image src={product.image} alt={product.name} fluid />
+          <Image
+            src={product.image}
+            alt={product.name}
+            fluid
+            style={{ width: "530px", height: "400px" }}
+          />
         </Col>
         <Col md={3}>
           <ListGroup variant="flush">
@@ -57,8 +62,9 @@ const ProductDetailsPage = () => {
               </ListGroup.Item>
               <ListGroup.Item className="text-center">
                 <Button
-                  className="btn-block"
+                  className="btn"
                   type="button"
+                  style={{ width: "100%" }}
                   disabled={product.countInStock === 0}
                 >
                   Add to Cart
