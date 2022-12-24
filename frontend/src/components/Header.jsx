@@ -1,3 +1,4 @@
+// Parent component => App
 import React from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { Container, Nav, Navbar } from "react-bootstrap";
