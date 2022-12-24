@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Pages
 import HomePage from './pages/HomePage';
-import ProductDetails from './pages/ProductDetails';
+import ProductDetailsPage from './pages/ProductDetailsPage';
 
 // Components 
 import Header from './components/Header';
@@ -18,7 +18,7 @@ const App = () => {
         <Container>
           <Routes>
             <Route path='/' element={<HomePage />} />
-            <Route path='/product/:id' element={<ProductDetails />} />
+            <Route path='/product/:id' element={<ProductDetailsPage />} />
           </Routes>
         </Container>
       </main>
