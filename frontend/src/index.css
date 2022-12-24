@@ -1,3 +1,8 @@
+body,
+html {
+  font-size: 14px;
+}
+
 main {
   min-height: 80vh;
   margin-top: 20px;
