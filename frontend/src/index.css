@@ -2,3 +2,11 @@ main {
   min-height: 80vh;
   margin-top: 20px;
 }
+
+h3 {
+  padding: 1rem 0rem;
+}
+
+.rating span {
+  margin: 0.1rem;
+}

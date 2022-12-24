@@ -1,23 +1,27 @@
-import React from 'react'
-import { Container, Nav, Navbar } from 'react-bootstrap'
+import React from "react";
+import { Container, Nav, Navbar } from "react-bootstrap";
 
 const Header = () => {
   return (
     <header>
-        <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
+      <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
-            <Navbar.Brand href="/">ProShop</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
+          <Navbar.Brand href="/">ProShop</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-                <Nav.Link href="/cart"><i class="fa-solid fa-cart-shopping"></i>Cart</Nav.Link>
-                <Nav.Link href="/login"><i class="fa-solid fa-user"></i>Sign In</Nav.Link>
+              <Nav.Link href="/cart">
+                <i className="fa-solid fa-cart-shopping"></i>Cart
+              </Nav.Link>
+              <Nav.Link href="/login">
+                <i className="fa-solid fa-user"></i>Sign In
+              </Nav.Link>
             </Nav>
-            </Navbar.Collapse>
+          </Navbar.Collapse>
         </Container>
-        </Navbar>
+      </Navbar>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
