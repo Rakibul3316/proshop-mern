@@ -1,0 +1,22 @@
+{
+  "name": "proshop",
+  "version": "1.0.0",
+  "description": "Ecommerce Project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rakibul3316/proshop-mern.git"
+  },
+  "author": "Rakibul Islam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Rakibul3316/proshop-mern/issues"
+  },
+  "homepage": "https://github.com/Rakibul3316/proshop-mern#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
