@@ -1,16 +1,24 @@
 // Parent component => App
-import React from "react";
+import { React, useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
+import axios from "axios";
 
 // Component
 import Rating from "../components/Rating";
-import products from "../products";
 
 const ProductDetailsPage = () => {
+  const [product, setProduct] = useState({});
   let { id } = useParams();
 
-  const product = products.find((p) => p._id === id);
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const res = await axios.get(`/api/product/${id}`);
+      setProduct(res.data);
+    };
+
+    fetchProduct();
+  }, [id]);
 
   return (
     <>
