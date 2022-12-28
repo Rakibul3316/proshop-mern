@@ -2,7 +2,9 @@ import express from 'express';
 import dotenv from 'dotenv';
 import colors from 'colors'
 import connectDB from './config/db.js';
-import products from './data/products.js';
+
+// Controller
+import products_controller from './controller/productController.js'
 
 // Initialize app
 const app = express()
@@ -17,15 +19,7 @@ app.get('/', (req, res) => {
     res.send("hello world ....");
 })
 
-app.get('/api/products', (req, res) => {
-    res.json(products);
-})
-
-app.get('/api/product/:id', (req, res) => {
-    let product = products.find(p => p._id === req.params.id);
-
-    res.json(product);
-})
+app.use('/api/products', products_controller)
 
 const PORT = process.env.PORT || 5000;
 
