@@ -11,13 +11,7 @@ const users = [
         name: 'Jhon Doe',
         email: 'jhon@gmail.com',
         password: bcrypt.hashSync('123456', 10),
-        isAdnin: true
-    },
-    {
-        name: 'Jane Doe',
-        email: 'jane@gmail.com',
-        password: bcrypt.hashSync('123456', 10),
-        isAdnin: true
+        isAdnin: false
     },
 ]
 
