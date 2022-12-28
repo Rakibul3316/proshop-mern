@@ -2,6 +2,7 @@
 import { React, useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import axios from "axios";
+
 // Component
 import Product from "../components/Product";
 
@@ -11,7 +12,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       const res = await axios.get("/api/products");
-      setProducts(res.data);
+      setProducts(res.data.data);
     };
 
     fetchProducts();
