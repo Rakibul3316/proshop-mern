@@ -12,7 +12,7 @@ const Product = ({ product }) => {
       <Card className="mb-4" style={{ borderRadius: "5px" }}>
         <Link to={`/product/${product._id}`}>
           <Card.Img
-            src={product.image}
+            src={product.product_image}
             variant="top"
             style={{ padding: "15px", paddingBottom: "0px" }}
           />
@@ -21,17 +21,19 @@ const Product = ({ product }) => {
         <Card.Body>
           <Link to={`/product/${product._id}`}>
             <Card.Title as="div">
-              <strong style={{ fontSize: "18px" }}>{product.name}</strong>
+              <strong style={{ fontSize: "18px" }}>
+                {product.product_name}
+              </strong>
             </Card.Title>
           </Link>
 
           <Card.Text as="div">
             <Rating
-              value={product.rating}
-              text={`${product.numReviews} reviews`}
+              value={product.product_avg_rating}
+              text={`${product.number_of_reviews} reviews`}
             />
           </Card.Text>
-          <Card.Text as="h3">${product.price}</Card.Text>
+          <Card.Text as="h3">${product.product_price}</Card.Text>
         </Card.Body>
       </Card>
     </>
