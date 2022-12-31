@@ -5,7 +5,7 @@ const router = express.Router();
 import productData from '../model/productModel.js';
 
 // @desc        Fetch all products
-// @route       GET /api/porduts
+// @route       GET /api/products
 // @access      Public
 router.get('/', asyncHandler(async (req, res) => {
     const products = await productData.find({});
@@ -17,7 +17,7 @@ router.get('/', asyncHandler(async (req, res) => {
 }))
 
 // @desc        Fetch single product
-// @route       GET /api/porduts/:id
+// @route       GET /api/products/:id
 // @access      Public
 router.get('/:id', asyncHandler(async (req, res) => {
     let product = await productData.findById(req.params.id);
@@ -28,10 +28,8 @@ router.get('/:id', asyncHandler(async (req, res) => {
             success: true
         });
     } else {
-        res.status(404).json({
-            message: 'Product not found!',
-            success: false
-        })
+        res.status(404)
+        throw new Error('Product not found!')
     }
 
 }))
