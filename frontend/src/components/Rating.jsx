@@ -1,4 +1,5 @@
-// Parent component => Product component
+// Parent component => Product Component
+// Parent component => Product Details Component
 import React from "react";
 import PropTypes from "prop-types";
 
