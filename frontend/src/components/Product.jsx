@@ -10,7 +10,7 @@ const Product = ({ product }) => {
   return (
     <>
       <Card className="mb-4" style={{ borderRadius: "5px" }}>
-        <Link to={`/api/products/${product._id}`}>
+        <Link to={`/products/${product._id}`}>
           <Card.Img
             src={product.product_image}
             variant="top"
@@ -19,7 +19,7 @@ const Product = ({ product }) => {
         </Link>
 
         <Card.Body>
-          <Link to={`/api/products/${product._id}`}>
+          <Link to={`/products/${product._id}`}>
             <Card.Title as="div">
               <strong style={{ fontSize: "18px" }}>
                 {product.product_name}
