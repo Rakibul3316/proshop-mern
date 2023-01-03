@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+// Actions
 export const addToCart = createAsyncThunk('addToCart', async ({ id, qty }, { getState, rejectWithValue, dispatch }) => {
     try {
         const response = await axios.get(`/api/products/${id}`)
@@ -19,6 +20,12 @@ export const addToCart = createAsyncThunk('addToCart', async ({ id, qty }, { get
     }
 }
 )
+
+export const removeFromCart = createAsyncThunk('removeFromCart', async (id, { getState, dispatch }) => {
+    dispatch(cartRemoveItem(id))
+
+    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
+})
 
 // Set cart item data from local storage
 const cartItemsFromLocalStorage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []
@@ -47,6 +54,12 @@ export const cartSlice = createSlice({
                     cartItems: [...state.cartItems, item]
                 }
             }
+        },
+        cartRemoveItem: (state, action) => {
+            return {
+                ...state,
+                cartItems: state.cartItems.filter(i => i._id !== action.payload)
+            }
         }
     },
     extraReducers: (builder) => {
@@ -57,5 +70,5 @@ export const cartSlice = createSlice({
     }
 })
 
-export const { cartAddItem } = cartSlice.actions
+export const { cartAddItem, cartRemoveItem } = cartSlice.actions
 export default cartSlice.reducer
