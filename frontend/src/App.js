@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // Pages
 import HomePage from './pages/HomePage';
 import ProductDetailsPage from './pages/ProductDetailsPage';
+import CartPage from './pages/CartPage';
 
 // Components 
 import Header from './components/Header';
@@ -18,7 +19,11 @@ const App = () => {
         <Container>
           <Routes>
             <Route path='/' element={<HomePage />} />
-            <Route path='/api/products/:id' element={<ProductDetailsPage />} />
+            <Route path='/products/:id' element={<ProductDetailsPage />} />
+            <Route path='/cart'>
+              <Route path=":id" element={<CartPage />} />
+              <Route path="" element={<CartPage />} />
+            </Route>
           </Routes>
         </Container>
       </main>
