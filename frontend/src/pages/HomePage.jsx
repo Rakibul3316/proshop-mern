@@ -20,7 +20,7 @@ const HomePage = () => {
 
   return (
     <>
-      <h1 className="mb-4">Latest Products</h1>
+      <h1>Latest Products</h1>
       {loading ? (
         <Loader />
       ) : error ? (
