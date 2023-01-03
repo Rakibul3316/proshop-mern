@@ -18,7 +18,6 @@ import {
 import Rating from "../components/Rating";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { addToCart } from "../slices/cartSlice";
 
 const ProductDetailsPage = () => {
   let [qty, setQty] = useState(1),
