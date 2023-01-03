@@ -1,23 +1,39 @@
 // Parent component => App
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProduct } from "../slices/productDetailsSlice";
-import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import {
+  Row,
+  Col,
+  ListGroup,
+  Image,
+  Card,
+  Button,
+  Form,
+} from "react-bootstrap";
 
 // Component
 import Rating from "../components/Rating";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import { addToCart } from "../slices/cartSlice";
 
 const ProductDetailsPage = () => {
-  let { id } = useParams();
+  let [qty, setQty] = useState(1),
+    navigate = useNavigate(),
+    { id } = useParams();
   const dispatch = useDispatch();
   const { product, loading, error } = useSelector((state) => state.product);
 
   useEffect(() => {
     dispatch(fetchProduct(id));
   }, [dispatch, id]);
+
+  const addToCartHandler = () => {
+    navigate(`/cart/${id}?qty=${qty}`);
+  };
 
   return (
     <>
@@ -76,8 +92,31 @@ const ProductDetailsPage = () => {
                     </Col>
                   </Row>
                 </ListGroup.Item>
+                {product.product_stock_count > 0 && (
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Quantity</Col>
+                      <Col>
+                        <Form.Control
+                          as="select"
+                          value={qty}
+                          onChange={(e) => setQty(e.target.value)}
+                        >
+                          {[...Array(product.product_stock_count).keys()].map(
+                            (x) => (
+                              <option key={x + 1} value={x + 1}>
+                                {x + 1}
+                              </option>
+                            )
+                          )}
+                        </Form.Control>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                )}
                 <ListGroup.Item className="text-center">
                   <Button
+                    onClick={addToCartHandler}
                     className="btn"
                     type="button"
                     style={{ width: "100%" }}
