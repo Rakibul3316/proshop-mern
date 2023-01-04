@@ -20,10 +20,7 @@ const App = () => {
           <Routes>
             <Route path='/' element={<HomePage />} />
             <Route path='/products/:id' element={<ProductDetailsPage />} />
-            <Route path='/cart'>
-              <Route path=":id" element={<CartPage />} />
-              <Route path="" element={<CartPage />} />
-            </Route>
+            <Route path='/cart' element={<CartPage />} />
           </Routes>
         </Container>
       </main>
