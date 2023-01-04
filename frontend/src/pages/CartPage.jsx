@@ -26,11 +26,11 @@ const CartPage = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
 
-  useEffect(() => {
-    if (id) {
-      dispatch(addToCart({ id, qty }));
-    }
-  }, [dispatch, id, qty]);
+  // useEffect(() => {
+  //   if (id) {
+  //     dispatch(addToCart({ id, qty }));
+  //   }
+  // }, [dispatch, id, qty]);
 
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id));
