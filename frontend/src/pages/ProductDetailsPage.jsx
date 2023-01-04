@@ -18,6 +18,7 @@ import {
 import Rating from "../components/Rating";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import { addToCart } from "../slices/cartSlice";
 
 const ProductDetailsPage = () => {
   let [qty, setQty] = useState(1),
@@ -31,7 +32,8 @@ const ProductDetailsPage = () => {
   }, [dispatch, id]);
 
   const addToCartHandler = () => {
-    navigate(`/cart/${id}?qty=${qty}`);
+    dispatch(addToCart({ id, qty: Number(qty) }));
+    navigate("/cart");
   };
 
   return (
