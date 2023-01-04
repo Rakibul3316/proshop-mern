@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -18,19 +18,10 @@ import { addToCart, removeFromCart } from "../slices/cartSlice";
 import Message from "../components/Message";
 
 const CartPage = () => {
-  let { id } = useParams(),
-    [queryParams] = useSearchParams(),
-    navigate = useNavigate(),
-    qty = Number(queryParams.get("qty"));
+  let navigate = useNavigate();
 
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
-
-  // useEffect(() => {
-  //   if (id) {
-  //     dispatch(addToCart({ id, qty }));
-  //   }
-  // }, [dispatch, id, qty]);
 
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id));
