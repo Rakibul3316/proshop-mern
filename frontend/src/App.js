@@ -7,7 +7,8 @@ import HomePage from './pages/HomePage';
 import ProductDetailsPage from './pages/ProductDetailsPage';
 import CartPage from './pages/CartPage';
 import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/Register';
+import RegisterPage from './pages/RegisterPage';
+import UserProfilePage from './pages/UserProfilePage';
 
 // Components 
 import Header from './components/Header';
@@ -20,6 +21,7 @@ const App = () => {
       <main>
         <Container>
           <Routes>
+            <Route path='/profile' element={<UserProfilePage />} />
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/products/:id' element={<ProductDetailsPage />} />
