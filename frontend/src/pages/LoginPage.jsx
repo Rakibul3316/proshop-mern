@@ -19,7 +19,7 @@ const LoginPage = () => {
   const location = useLocation(),
     navigate = useNavigate();
 
-  const userLogin = useSelector((state) => state.user);
+  const userLogin = useSelector((state) => state.userLogIn);
   const { loading, userInfo, error } = userLogin;
 
   const redirect = location.search ? location.search.split("=")[1] : "/";

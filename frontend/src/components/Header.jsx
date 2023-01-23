@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../slices/userSlice";
 
 const Header = () => {
-  const userLogin = useSelector((state) => state.user),
+  const userLogin = useSelector((state) => state.userLogIn),
     { userInfo } = userLogin;
 
   const dispatch = useDispatch();
