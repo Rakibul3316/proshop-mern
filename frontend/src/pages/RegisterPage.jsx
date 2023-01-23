@@ -23,7 +23,7 @@ const RegisterPage = () => {
     location = useLocation(),
     navigate = useNavigate();
 
-  const userRegister = useSelector((state) => state.user);
+  const userRegister = useSelector((state) => state.userLogIn);
   const { loading, userInfo, error } = userRegister;
 
   const redirect = location.search ? location.search.split("=")[1] : "/";
