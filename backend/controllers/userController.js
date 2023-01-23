@@ -27,27 +27,6 @@ const getUser = asyncHandler(async (req, res) => {
     }
 })
 
-// @desc        Get user profile
-// @route       GET /api/users/profile
-// @access      Private
-const getUserProfile = asyncHandler(async (req, res) => {
-    // This user information is passed in request in protected middleware.
-    const user = await userData.findById(req.user._id);
-
-    if (user) {
-        res.json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            isAdmin: user.isAdmin,
-        })
-    } else {
-        res.status(404) // Not Found
-        throw new Error('User not found.')
-    }
-
-})
-
 // @desc        Register a new user
 // @route       POST /api/users
 // @access      Public
@@ -84,7 +63,7 @@ const registerUser = asyncHandler(async (req, res) => {
 })
 
 // @desc        Update user profile
-// @route       PUT /api/users/profile
+// @route       PUT /api/users/profile/update
 // @access      Private
 const updateUserProfile = asyncHandler(async (req, res) => {
     // This user information is passed in request in protected middleware.
@@ -114,4 +93,4 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
 })
 
-export { getUser, getUserProfile, registerUser, updateUserProfile };
+export { getUser, registerUser, updateUserProfile };
