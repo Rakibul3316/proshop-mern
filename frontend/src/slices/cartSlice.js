@@ -27,12 +27,33 @@ export const removeFromCart = createAsyncThunk('removeFromCart', async (id, { ge
     localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 })
 
+export const saveShippingData = createAsyncThunk('saveShippingData', async ({ address, city, postalCode, country, }, { getState, dispatch }) => {
+    let data = {
+        address,
+        city,
+        postalCode,
+        country,
+    }
+    dispatch(saveShippingAddress(data))
+    localStorage.setItem('shippingAddress', JSON.stringify(data))
+})
+
+export const savePaymentMethod = createAsyncThunk('savePaymentMethod', async ({ method }, { getState, dispatch }) => {
+    dispatch(paymentMethod(method))
+    localStorage.setItem('paymentMethod', JSON.stringify(method))
+})
+
 // Set cart item data from local storage
 const cartItemsFromLocalStorage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []
 
+// Set shipping address data from local storage
+const shippingAddressFromLocalStorage = localStorage.getItem('shippingAddress') ? JSON.parse(localStorage.getItem('shippingAddress')) : {}
+
 const initialState = {
     cartItems: cartItemsFromLocalStorage,
-    error: null
+    error: null,
+    shippingAddress: shippingAddressFromLocalStorage,
+    paymentMethod: ''
 }
 
 export const cartSlice = createSlice({
@@ -60,6 +81,18 @@ export const cartSlice = createSlice({
                 ...state,
                 cartItems: state.cartItems.filter(i => i._id !== action.payload)
             }
+        },
+        saveShippingAddress: (state, action) => {
+            return {
+                ...state,
+                shippingAddress: action.payload
+            }
+        },
+        paymentMethod: (state, action) => {
+            return {
+                ...state,
+                paymentMethod: action.payload
+            }
         }
     },
     extraReducers: (builder) => {
@@ -70,5 +103,5 @@ export const cartSlice = createSlice({
     }
 })
 
-export const { cartAddItem, cartRemoveItem } = cartSlice.actions
+export const { cartAddItem, cartRemoveItem, saveShippingAddress, paymentMethod } = cartSlice.actions
 export default cartSlice.reducer
