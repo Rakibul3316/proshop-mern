@@ -9,10 +9,10 @@ const orderSchema = mongoose.Schema({
     order_items: [
         {
             product_name: { type: String, required: [true, 'Order product name is required'] },
-            product_quantity: { type: String, required: [true, 'Order product qty is required'] },
+            qty: { type: String, required: [true, 'Order product qty is required'] },
             product_image: { type: String, required: [true, 'Order product image is required'] },
             product_price: { type: Number, required: [true, 'Order product price is required'] },
-            product_id: {
+            _id: {
                 type: mongoose.Schema.Types.ObjectId,
                 required: [true, 'Order product id is required'],
                 ref: 'productData'
@@ -22,7 +22,7 @@ const orderSchema = mongoose.Schema({
     shipping_address: {
         address: { type: String, required: [true, 'Shipping address is required'] },
         city: { type: String, required: [true, 'Shipping city is required'] },
-        postal_code: { type: String, required: [true, 'Shipping postal code is required'] },
+        postalCode: { type: String, required: [true, 'Shipping postal code is required'] },
         country: { type: String, required: [true, 'Shipping country is required'] },
     },
     payment_method: {
@@ -48,6 +48,10 @@ const orderSchema = mongoose.Schema({
     total_price: {
         type: Number,
         required: [true, 'Total price is required'],
+        default: 0
+    },
+    items_price: {
+        type: Number,
         default: 0
     },
     isPaid: {
