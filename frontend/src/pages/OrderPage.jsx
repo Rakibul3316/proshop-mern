@@ -33,11 +33,27 @@ const OrderPage = () => {
             <ListGroup.Item>
               <h2>Shipping</h2>
               <p>
+                <strong>Name: </strong> {order.user_id.name}
+              </p>
+              <p>
+                <strong>Email: </strong>{" "}
+                <a href={`mailto: ${order.user_id.email}`}>
+                  {order.user_id.email}
+                </a>
+              </p>
+              <p>
                 <strong>Address: </strong>
                 {order.shipping_address.address}, {order.shipping_address.city}{" "}
                 {order.shipping_address.postalCode},{" "}
                 {order.shipping_address.country}
               </p>
+              {order.isDelivered ? (
+                <Message variant="success">
+                  Delivered on {order.delivered_at}
+                </Message>
+              ) : (
+                <Message variant="danger">Not Delivered</Message>
+              )}
             </ListGroup.Item>
 
             <ListGroup.Item>
@@ -46,8 +62,12 @@ const OrderPage = () => {
                 <strong>Method: </strong>
                 {order.payment_method}
               </p>
+              {order.isPaid ? (
+                <Message variant="success">Paid on {order.paid_at}</Message>
+              ) : (
+                <Message variant="danger">Not Paid</Message>
+              )}
             </ListGroup.Item>
-
             <ListGroup.Item>
               <h2>Order Items</h2>
               {order.order_items.length === 0 ? (
