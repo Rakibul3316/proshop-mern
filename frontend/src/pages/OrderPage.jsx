@@ -1,17 +1,9 @@
-import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Card,
-  Col,
-  Form,
-  Image,
-  ListGroup,
-  Row,
-} from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { createOrder, getOrderDetails } from "../slices/orderSlice.js";
+import { getOrderDetails } from "../slices/orderSlice.js";
 
 // Component
 import Message from "../components/Message.jsx";
@@ -21,8 +13,6 @@ const OrderPage = () => {
   // State
   const { order, loading, error } = useSelector((state) => state.order);
   const { id } = useParams();
-
-  console.log("order >>", order);
 
   const dispatch = useDispatch();
 
