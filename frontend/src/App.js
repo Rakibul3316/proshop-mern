@@ -9,6 +9,10 @@ import CartPage from './pages/CartPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import UserProfilePage from './pages/UserProfilePage';
+import ShippingPage from './pages/ShippingPage';
+import PaymentPage from './pages/PaymentPage';
+import PlaceOrderPage from './pages/PlaceOrderPage';
+import OrderPage from './pages/OrderPage';
 
 // Components 
 import Header from './components/Header';
@@ -21,6 +25,10 @@ const App = () => {
       <main>
         <Container>
           <Routes>
+            <Route path='/order/:id' element={<OrderPage />} />
+            <Route path='/placeorder' element={<PlaceOrderPage />} />
+            <Route path='/payment' element={<PaymentPage />} />
+            <Route path='/shipping' element={<ShippingPage />} />
             <Route path='/profile' element={<UserProfilePage />} />
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/login' element={<LoginPage />} />
