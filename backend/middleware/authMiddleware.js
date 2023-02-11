@@ -28,6 +28,15 @@ const protect = asyncHandler(async (req, res, next) => {
     }
 
     next()
-})
+});
 
-export default protect;
+const admin = (req, res, next) => {
+    if (req.user && req.user.isAdmin) {
+        next()
+    } else {
+        res.status(401) // 401 means unauthorized
+        throw new Error('Not authorize as an admin')
+    }
+}
+
+export { protect, admin };
