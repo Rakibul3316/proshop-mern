@@ -77,6 +77,25 @@ export const logout = createAsyncThunk('logout', async (_, { rejectWithValue }) 
     }
 })
 
+export const userList = createAsyncThunk('userList', async (_, { getState, rejectWithValue }) => {
+    try {
+        const { userInfo } = getState().userLogIn;
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+            }
+        }
+        const { data } = await axios.get('/api/users', config);
+        return data;
+    } catch (error) {
+        if (error.response && error.response.data.message) {
+            return rejectWithValue(error.response.data.message);
+        } else {
+            return rejectWithValue(error.message);
+        }
+    }
+})
+
 // Set cart item data from local storage
 const userInfoFromLocalStorage = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null
 
@@ -84,7 +103,8 @@ const initialState = {
     loading: false,
     userInfo: userInfoFromLocalStorage,
     error: null,
-    success: false
+    success: false,
+    users: []
 }
 
 export const userSlice = createSlice({
@@ -105,10 +125,12 @@ export const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            // login
             .addCase(login.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload
             })
+            // logout
             .addCase(logout.fulfilled, (state, action) => {
                 state.loading = false;
                 state.userInfo = null;
@@ -118,7 +140,20 @@ export const userSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload
             })
+            // register
             .addCase(register.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload
+            })
+            // user lists
+            .addCase(userList.pending, (state, action) => {
+                state.loading = true;
+            })
+            .addCase(userList.fulfilled, (state, action) => {
+                state.loading = false;
+                state.users = action.payload;
+            })
+            .addCase(userList.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload
             })
