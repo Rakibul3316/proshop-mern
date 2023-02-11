@@ -66,7 +66,7 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route       PUT /api/users/profile/update
 // @access      Private
 const updateUserProfile = asyncHandler(async (req, res) => {
-    // This user information is passed in request in protected middleware.
+    // This user information is passed in request in auth middleware.
     const user = await userData.findById(req.user._id);
 
     if (user) {
@@ -93,4 +93,12 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
 })
 
-export { getUser, registerUser, updateUserProfile };
+// @desc        Get all users
+// @route       GET /api/users
+// @access      Private/Admin
+const getUsers = asyncHandler(async (req, res) => {
+    const users = await userData.find({});
+    res.json(users);
+})
+
+export { getUser, registerUser, updateUserProfile, getUsers };
