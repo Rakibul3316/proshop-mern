@@ -13,6 +13,7 @@ import ShippingPage from './pages/ShippingPage';
 import PaymentPage from './pages/PaymentPage';
 import PlaceOrderPage from './pages/PlaceOrderPage';
 import OrderPage from './pages/OrderPage';
+import UsersListPage from './pages/UsersListPage'
 
 // Components 
 import Header from './components/Header';
@@ -25,6 +26,7 @@ const App = () => {
       <main>
         <Container>
           <Routes>
+            <Route path='/admin/userslist' element={<UsersListPage />} />
             <Route path='/order/:id' element={<OrderPage />} />
             <Route path='/placeorder' element={<PlaceOrderPage />} />
             <Route path='/payment' element={<PaymentPage />} />
