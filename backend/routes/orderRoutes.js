@@ -6,8 +6,8 @@ import {
     updateOrderToPaid,
     getMyOrders
 } from "../controllers/orderController.js";
-// Protect Middleware
-import protect from "../middleware/authMiddleware.js";
+// Auth Middleware
+import { protect } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.route('/').post(protect, addOrderItems);
