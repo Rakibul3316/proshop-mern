@@ -13,7 +13,8 @@ import ShippingPage from './pages/ShippingPage';
 import PaymentPage from './pages/PaymentPage';
 import PlaceOrderPage from './pages/PlaceOrderPage';
 import OrderPage from './pages/OrderPage';
-import UsersListPage from './pages/UsersListPage'
+import UsersListPage from './pages/UsersListPage';
+import UserUpdateByAdminPage from './pages/UserUpdateByAdminPage';
 
 // Components 
 import Header from './components/Header';
@@ -26,6 +27,7 @@ const App = () => {
       <main>
         <Container>
           <Routes>
+            <Route path='/admin/user/:id/edit' element={<UserUpdateByAdminPage />} />
             <Route path='/admin/userslist' element={<UsersListPage />} />
             <Route path='/order/:id' element={<OrderPage />} />
             <Route path='/placeorder' element={<PlaceOrderPage />} />
