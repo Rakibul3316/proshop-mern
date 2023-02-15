@@ -1,7 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Actions
+// Set cart item data from local storage
+const userInfoFromLocalStorage = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null
+
+// Initial State
+const initialState = {
+    loading: false,
+    success: false,
+    error: null,
+    // Login user details
+    userInfo: userInfoFromLocalStorage,
+}
+
+// Actions for system user
 export const login = createAsyncThunk('login', async ({ email, password }, { getState, rejectWithValue, dispatch }) => {
     try {
         const config = {
@@ -19,8 +31,7 @@ export const login = createAsyncThunk('login', async ({ email, password }, { get
             return rejectWithValue(error.message);
         }
     }
-}
-)
+})
 
 export const register = createAsyncThunk('register', async ({ name, email, password }, { getState, rejectWithValue, dispatch }) => {
     try {
@@ -39,8 +50,19 @@ export const register = createAsyncThunk('register', async ({ name, email, passw
             return rejectWithValue(error.message);
         }
     }
-}
-)
+})
+
+export const logout = createAsyncThunk('logout', async (_, { rejectWithValue }) => {
+    try {
+        localStorage.removeItem('userInfo')
+    } catch (error) {
+        if (error.response && error.response.data.message) {
+            return rejectWithValue(error.response.data.message);
+        } else {
+            return rejectWithValue(error.message);
+        }
+    }
+})
 
 export const updateUserDetails = createAsyncThunk('updateUserDetails', async ({ id, name, email, password }, { getState, rejectWithValue, dispatch }) => {
     try {
@@ -62,51 +84,9 @@ export const updateUserDetails = createAsyncThunk('updateUserDetails', async ({ 
             return rejectWithValue(error.message);
         }
     }
-}
-)
-
-export const logout = createAsyncThunk('logout', async (_, { rejectWithValue }) => {
-    try {
-        localStorage.removeItem('userInfo')
-    } catch (error) {
-        if (error.response && error.response.data.message) {
-            return rejectWithValue(error.response.data.message);
-        } else {
-            return rejectWithValue(error.message);
-        }
-    }
 })
 
-export const userList = createAsyncThunk('userList', async (_, { getState, rejectWithValue }) => {
-    try {
-        const { userInfo } = getState().userLogIn;
-        const config = {
-            headers: {
-                Authorization: `Bearer ${userInfo.token}`,
-            }
-        }
-        const { data } = await axios.get('/api/users', config);
-        return data;
-    } catch (error) {
-        if (error.response && error.response.data.message) {
-            return rejectWithValue(error.response.data.message);
-        } else {
-            return rejectWithValue(error.message);
-        }
-    }
-})
-
-// Set cart item data from local storage
-const userInfoFromLocalStorage = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null
-
-const initialState = {
-    loading: false,
-    userInfo: userInfoFromLocalStorage,
-    error: null,
-    success: false,
-    users: []
-}
-
+// Reducers
 export const userSlice = createSlice({
     name: 'user',
     initialState: initialState,
@@ -121,7 +101,7 @@ export const userSlice = createSlice({
             state.userInfo = action.payload;
             state.error = null;
             state.success = true;
-        }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -142,18 +122,6 @@ export const userSlice = createSlice({
             })
             // register
             .addCase(register.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload
-            })
-            // user lists
-            .addCase(userList.pending, (state, action) => {
-                state.loading = true;
-            })
-            .addCase(userList.fulfilled, (state, action) => {
-                state.loading = false;
-                state.users = action.payload;
-            })
-            .addCase(userList.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload
             })
