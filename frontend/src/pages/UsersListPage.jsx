@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Table, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 // Redux Actions
-import { userList } from "../slices/userSlice.js";
+import { userList, userDelete } from "../slices/adminUserSlice.js";
 
 // Component
 import Message from "../components/Message";
@@ -12,16 +13,26 @@ import Loader from "../components/Loader";
 
 const UserLists = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const logInUser = useSelector((state) => state.userLogIn);
-  const { loading, error, users } = logInUser;
+  const admin = useSelector((state) => state.userLogIn);
+  const { userInfo } = admin;
+
+  const allUsers = useSelector((state) => state.usersForAdmin);
+  const { loading, error, users, success: successDelete } = allUsers;
 
   useEffect(() => {
-    dispatch(userList());
-  }, [dispatch]);
+    if (userInfo && userInfo.isAdmin) {
+      dispatch(userList());
+    } else {
+      navigate("/login");
+    }
+  }, [dispatch, userInfo, navigate, successDelete]);
 
-  const deleteHandler = () => {
-    console.log("hello");
+  const deleteHandler = (_id) => {
+    if (window.confirm("Are you sure ?")) {
+      dispatch(userDelete({ id: _id }));
+    }
   };
 
   return (
@@ -58,7 +69,7 @@ const UserLists = () => {
                   )}
                 </td>
                 <td>
-                  <LinkContainer to={`/user/${user._id}/edit`}>
+                  <LinkContainer to={`/admin/user/${user._id}/edit`}>
                     <Button variant="light" className="btn-sm">
                       <i className="fas fa-edit"></i>
                     </Button>
@@ -66,9 +77,10 @@ const UserLists = () => {
                   <Button
                     variant="darger"
                     className="btn-sm"
+                    style={{ backgroundColor: "red" }}
                     onClick={() => deleteHandler(user._id)}
                   >
-                    <i className="fas fa-trash"></i>
+                    <i className="fas fa-trash" style={{ color: "white" }}></i>
                   </Button>
                 </td>
               </tr>
