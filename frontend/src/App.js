@@ -14,6 +14,7 @@ import PaymentPage from './pages/PaymentPage';
 import PlaceOrderPage from './pages/PlaceOrderPage';
 import OrderPage from './pages/OrderPage';
 import UsersListPage from './pages/UsersListPage';
+import ProductsListPage from './pages/ProductsListPage';
 import UserUpdateByAdminPage from './pages/UserUpdateByAdminPage';
 
 // Components 
@@ -29,6 +30,7 @@ const App = () => {
           <Routes>
             <Route path='/admin/user/:id/edit' element={<UserUpdateByAdminPage />} />
             <Route path='/admin/userslist' element={<UsersListPage />} />
+            <Route path='/admin/productslist' element={<ProductsListPage />} />
             <Route path='/order/:id' element={<OrderPage />} />
             <Route path='/placeorder' element={<PlaceOrderPage />} />
             <Route path='/payment' element={<PaymentPage />} />
