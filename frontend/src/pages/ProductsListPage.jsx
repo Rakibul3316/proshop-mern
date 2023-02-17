@@ -36,7 +36,7 @@ const ProductsList = () => {
   };
 
   const createProductHandler = () => {
-    console.log("hello");
+    navigate("/admin/product/create");
   };
 
   return (
