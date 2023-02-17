@@ -16,6 +16,7 @@ import OrderPage from './pages/OrderPage';
 import UsersListPage from './pages/UsersListPage';
 import ProductsListPage from './pages/ProductsListPage';
 import UserUpdateByAdminPage from './pages/UserUpdateByAdminPage';
+import CreateProductPage from './pages/CreateProductPage';
 
 // Components 
 import Header from './components/Header';
@@ -31,6 +32,7 @@ const App = () => {
             <Route path='/admin/user/:id/edit' element={<UserUpdateByAdminPage />} />
             <Route path='/admin/userslist' element={<UsersListPage />} />
             <Route path='/admin/productslist' element={<ProductsListPage />} />
+            <Route path='/admin/product/create' element={<CreateProductPage />} />
             <Route path='/order/:id' element={<OrderPage />} />
             <Route path='/placeorder' element={<PlaceOrderPage />} />
             <Route path='/payment' element={<PaymentPage />} />
