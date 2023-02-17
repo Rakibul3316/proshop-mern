@@ -36,13 +36,13 @@ const productSchema = mongoose.Schema({
     },
     product_avg_rating: {
         type: Number,
-        required: [true, 'Product average rating is required'],
+        //required: [true, 'Product average rating is required'],
         default: 0
     },
     product_reviews: [reviewSchema],
     number_of_reviews: {
         type: Number,
-        required: [true, 'Number of veriews is required'],
+        //required: [true, 'Number of veriews is required'],
         default: 0
     },
     product_price: {
