@@ -11,7 +11,7 @@ import { userList, userDelete } from "../slices/adminUserSlice.js";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 
-const UserLists = () => {
+const UsersList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -92,4 +92,4 @@ const UserLists = () => {
   );
 };
 
-export default UserLists;
+export default UsersList;
