@@ -1,4 +1,5 @@
 import asyncHandler from 'express-async-handler';
+import cloudinary from 'cloudinary'
 
 import productData from '../models/productModel.js';
 
@@ -55,18 +56,23 @@ const createProduct = asyncHandler(async (req, res) => {
     const {
         product_name,
         product_price,
-        product_image,
+        image_url,
+        public_id,
         product_brand,
         product_category,
         product_stock_count,
         product_description
 
     } = req.body;
+
     const product = new productData({
         product_name: product_name,
         product_price: product_price,
         user_id: req.user._id,
-        product_image: product_image,
+        product_image: {
+            image_url,
+            public_id
+        },
         product_brand: product_brand,
         product_category: product_category,
         product_stock_count: product_stock_count,
@@ -74,7 +80,13 @@ const createProduct = asyncHandler(async (req, res) => {
     })
 
     const createdProduct = await product.save();
-    res.status(201).json(createdProduct);
+
+    if (createProduct) {
+        res.status(201).json(createdProduct);
+    } else {
+        res.status(400) // 400 means bad request
+        throw new Error('Invalid product data')
+    }
 })
 
 // @desc        Update product
