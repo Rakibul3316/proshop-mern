@@ -12,7 +12,11 @@ const Product = ({ product }) => {
       <Card className="mb-4" style={{ borderRadius: "5px" }}>
         <Link to={`/products/${product._id}`}>
           <Card.Img
-            src={product.product_image}
+            src={
+              product.product_image.image_url
+                ? product.product_image.image_url
+                : product.product_image
+            }
             variant="top"
             style={{ padding: "15px", paddingBottom: "0px" }}
           />
