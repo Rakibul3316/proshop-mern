@@ -98,13 +98,14 @@ const updateProduct = asyncHandler(async (req, res) => {
         product_price,
         product_image,
         product_brand,
-        user_id,
         product_category,
         product_stock_count,
         number_of_reviews,
         product_description
 
     } = req.body;
+
+    console.log("body >>", req.body);
 
     const product = await productData.findById(req.params.id);
 
@@ -113,7 +114,7 @@ const updateProduct = asyncHandler(async (req, res) => {
         product.product_price = product_price;
         product.product_image = product_image;
         product.product_brand = product_brand;
-        product.user_id = user_id;
+        product.user_id = req.user._id;
         product.product_category = product_category;
         product.product_stock_count = product_stock_count;
         product.number_of_reviews = number_of_reviews;
@@ -127,10 +128,38 @@ const updateProduct = asyncHandler(async (req, res) => {
     }
 })
 
+// @desc        Delete product image_url & public_id
+// @route       POST /api/products/:id
+// @access      Private/Admin
+const deleteProductImage = asyncHandler(async (req, res) => {
+    const {
+        product_image,
+    } = req.body;
+
+    let deleteProductImg = await productData.findOneAndUpdate({ _id: req.params.id }, { $set: { product_image } })
+
+    res.send(deleteProductImg)
+})
+
+// @desc        Update product image_url & public_id
+// @route       POST /api/products/:id
+// @access      Private/Admin
+const updateProductImage = asyncHandler(async (req, res) => {
+    const {
+        product_image,
+    } = req.body;
+
+    let updateProductImg = await productData.findOneAndUpdate({ _id: req.params.id }, { $set: { product_image } })
+
+    res.send(updateProductImg)
+})
+
 export {
     getProducts,
     getProductById,
     deleteProduct,
     createProduct,
-    updateProduct
+    updateProduct,
+    deleteProductImage,
+    updateProductImage
 };
