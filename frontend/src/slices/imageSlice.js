@@ -1,15 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { savePhotoToDatabase } from './productsSlice';
 
 const initialState = {
     // uploaded state
     uploadImgLoading: false,
     uploadImgError: null,
     uploadedImage: {},
+    uploadedSuccess: false,
     // delete state
     deleteImgLoading: false,
     deleteImgError: null,
-    deletedImage: {}
+    deletedImage: {},
+    deletedImageSuccess: false
 }
 
 // Upload Image Thunk
@@ -34,7 +37,7 @@ export const uploadPhoto = createAsyncThunk('uploadPhoto', async ({ formData }, 
 })
 
 // Delete Image Thunk
-export const deletePhoto = createAsyncThunk('deletePhoto', async (publicId, { getState, rejectWithValue }) => {
+export const deletePhoto = createAsyncThunk('deletePhoto', async (payload, { getState, rejectWithValue, dispatch }) => {
     try {
         const { userInfo } = getState().userLogIn;
         const config = {
@@ -42,7 +45,12 @@ export const deletePhoto = createAsyncThunk('deletePhoto', async (publicId, { ge
                 Authorization: `Bearer ${userInfo.token}`,
             },
         };
-        await axios.post("/api/image/delete", publicId, config);
+        let publicId = { public_id: payload.public_id };
+        const { data } = await axios.post("/api/image/delete", publicId, config);
+        if (data.result === 'ok') {
+            dispatch(savePhotoToDatabase(payload._id))
+        }
+        // return data;
     } catch (error) {
         if (error.response && error.response.data.message) {
             return rejectWithValue(error.response.data.message);
@@ -65,6 +73,7 @@ export const imageSlice = createSlice({
             .addCase(uploadPhoto.fulfilled, (state, action) => {
                 state.uploadImgLoading = false
                 state.uploadedImage = action.payload
+                state.uploadedSuccess = true
             })
             .addCase(uploadPhoto.rejected, (state, action) => {
                 state.uploadImgLoading = false;
@@ -78,6 +87,7 @@ export const imageSlice = createSlice({
                 state.deleteImgLoading = false
                 state.deletedImage = action.payload
                 state.uploadedImage = {}
+                state.deletedImageSuccess = true
             })
             .addCase(deletePhoto.rejected, (state, action) => {
                 state.deleteImgLoading = false;
