@@ -153,6 +153,11 @@ export const productsSlice = createSlice({
             state.updateLoading = false;
             state.updateError = null;
             state.updateSuccess = false;
+        },
+        resetDeletePhotoFromDatabase: (state, action) => {
+            state.deleteProductImgLoading = false
+            state.deleteProductImgError = null
+            state.deleteProductImgSuccess = false
         }
     },
     extraReducers: (builder) => {
@@ -235,5 +240,5 @@ export const productsSlice = createSlice({
     }
 })
 
-export const { resetCreateProduct, resetUpdateProduct } = productsSlice.actions
+export const { resetCreateProduct, resetUpdateProduct, resetDeletePhotoFromDatabase } = productsSlice.actions
 export default productsSlice.reducer
