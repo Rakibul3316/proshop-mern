@@ -24,9 +24,10 @@ const uploadImage = asyncHandler(async (req, res) => {
 // @access      Private/Admin
 const deleteImage = asyncHandler(async (req, res) => {
     let public_id = req.body.public_id
+    console.log("public id from controller >>", public_id)
     const deletedImg = await cloudinary.v2.uploader.destroy(public_id);
 
-    if (deleteImage) {
+    if (deletedImg) {
         console.log("deleted img message form imageContorller >>", deleteImage)
         res.send(deletedImg);
     } else {
