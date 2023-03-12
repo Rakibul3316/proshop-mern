@@ -26,10 +26,7 @@ const productSchema = mongoose.Schema({
         public_id: {
             type: String,
             required: [true, 'public id is required form product image'],
-            default: null
         },
-        // type: String,
-        // required: [true, 'Product image is required'],
     },
     product_brand: {
         type: String,
