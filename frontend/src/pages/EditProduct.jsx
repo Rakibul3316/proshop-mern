@@ -10,12 +10,17 @@ import SmallLoader from "../components/SmallLoader";
 
 // Redux Thunk
 import {
+  resetDeletePhotoFromDatabase,
   resetUpdateProduct,
   savePhotoToDatabase,
   updateProduct,
 } from "../slices/productsSlice";
-import { fetchProduct } from "../slices/productDetailsSlice";
-import { deletePhoto, uploadPhoto } from "../slices/imageSlice";
+import { fetchProduct, resetProduct } from "../slices/productDetailsSlice";
+import {
+  deletePhoto,
+  resetUploadPhoto,
+  uploadPhoto,
+} from "../slices/imageSlice";
 
 function EditProduct() {
   const [name, setName] = useState(""),
@@ -56,6 +61,7 @@ function EditProduct() {
         image_url: "",
         public_id: "",
       });
+      dispatch(resetDeletePhotoFromDatabase());
     }
     if (uploadedSuccess) {
       setImage({
@@ -68,10 +74,18 @@ function EditProduct() {
         public_id: image.public_id,
       };
       dispatch(savePhotoToDatabase(payload));
+      dispatch(resetUploadPhoto());
     }
     if (updateSuccess) {
-      navigate("/admin/productslist");
+      setName("");
+      setPrice(0);
+      setBrand("");
+      setCategory("");
+      setCountInStock(0);
+      setDescription("");
+      setImage({});
       dispatch(resetUpdateProduct());
+      navigate("/admin/productslist");
     }
   }, [
     dispatch,
@@ -108,15 +122,22 @@ function EditProduct() {
       formData.append("file", file);
 
       dispatch(uploadPhoto({ formData }));
+    } else {
+      const file = e.target.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+
+      dispatch(uploadPhoto({ formData }));
     }
   };
 
   const removePreview = async (e) => {
     let payload = {
       _id: product._id,
-      public_id: image.public_id,
+      public_id: product.product_image.public_id,
     };
-    dispatch(savePhotoToDatabase(payload));
+    // delete photo from cloudinary
+    dispatch(deletePhoto(payload));
   };
 
   const submitHandler = (e) => {
@@ -134,6 +155,7 @@ function EditProduct() {
       product_stock_count: countInStock,
       product_description: description,
     };
+    dispatch(resetProduct());
     dispatch(updateProduct(updatedProduct));
   };
 
