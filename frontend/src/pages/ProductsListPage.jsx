@@ -29,9 +29,13 @@ const ProductsList = () => {
     }
   }, [dispatch, userInfo, navigate, success]);
 
-  const deleteHandler = (id) => {
+  const deleteHandler = (product) => {
     if (window.confirm("Are you sure ?")) {
-      dispatch(deleteProduct({ id }));
+      let payload = {
+        _id: product._id,
+        product_image: product.product_image,
+      };
+      dispatch(deleteProduct(payload));
     }
   };
 
@@ -57,7 +61,7 @@ const ProductsList = () => {
         <Table striped bordered hover responsive className="table-sm">
           <thead>
             <tr>
-              <th>ID</th>
+              <th>IMAGE</th>
               <th>NAME</th>
               <th>PRICE</th>
               <th>CATEGORY</th>
@@ -68,7 +72,17 @@ const ProductsList = () => {
           <tbody>
             {products.map((product) => (
               <tr key={product._id}>
-                <td>{product._id}</td>
+                <td>
+                  <img
+                    src={product.product_image.image_url}
+                    alt="product"
+                    style={{
+                      width: "60px",
+                      height: "60px",
+                      objectFit: "cover",
+                    }}
+                  />
+                </td>
                 <td>{product.product_name}</td>
                 <td>{product.product_price}</td>
                 <td>{product.product_category}</td>
@@ -83,7 +97,7 @@ const ProductsList = () => {
                     variant="darger"
                     className="btn-sm"
                     style={{ backgroundColor: "red" }}
-                    onClick={() => deleteHandler(product._id)}
+                    onClick={() => deleteHandler(product)}
                   >
                     <i className="fas fa-trash" style={{ color: "white" }}></i>
                   </Button>
