@@ -6,7 +6,11 @@ import { Link, useNavigate } from "react-router-dom";
 // Component
 import Message from "../components/Message";
 import SmallLoader from "../components/SmallLoader";
-import { deletePhoto, uploadPhoto } from "../slices/imageSlice";
+import {
+  deletePhoto,
+  resetUploadPhoto,
+  uploadPhoto,
+} from "../slices/imageSlice";
 
 // Redux Thunk
 import { createProduct, resetCreateProduct } from "../slices/productsSlice";
@@ -50,6 +54,7 @@ const CreateProductPage = () => {
 
     if (createSuccess) {
       dispatch(resetCreateProduct());
+      dispatch(resetUploadPhoto());
       navigate("/admin/productslist");
     }
 
