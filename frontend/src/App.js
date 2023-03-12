@@ -17,6 +17,7 @@ import UsersListPage from './pages/UsersListPage';
 import ProductsListPage from './pages/ProductsListPage';
 import UserUpdateByAdminPage from './pages/UserUpdateByAdminPage';
 import CreateProductPage from './pages/CreateProductPage';
+import EditProduct from './pages/EditProduct';
 
 // Components 
 import Header from './components/Header';
@@ -29,6 +30,7 @@ const App = () => {
       <main>
         <Container>
           <Routes>
+            <Route path='/admin/product/:id/edit' element={<EditProduct />} />
             <Route path='/admin/user/:id/edit' element={<UserUpdateByAdminPage />} />
             <Route path='/admin/userslist' element={<UsersListPage />} />
             <Route path='/admin/productslist' element={<ProductsListPage />} />
