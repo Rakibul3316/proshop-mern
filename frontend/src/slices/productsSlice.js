@@ -10,6 +10,18 @@ const initialState = {
     createLoading: false,
     createError: null,
     createSuccess: false,
+    // For update product thunk
+    updateLoading: false,
+    updateError: null,
+    updateSuccess: false,
+    // Delete image and update product_image object
+    deleteProductImgLoading: false,
+    deleteProductImgError: null,
+    deleteProductImgSuccess: false,
+    // Save image and update product_image object
+    saveProductImgLoading: false,
+    saveProductImgError: null,
+    saveProductImgSuccess: false,
 }
 
 // First, create the thunk
@@ -26,7 +38,7 @@ export const fetchProducts = createAsyncThunk('fetchProducts', async (_, { rejec
     }
 })
 
-export const deleteProduct = createAsyncThunk('deleteProduct', async ({ id }, { rejectWithValue, getState }) => {
+export const deleteProduct = createAsyncThunk('deleteProduct', async (payload, { rejectWithValue, getState }) => {
     try {
         const { userInfo } = getState().userLogIn;
         const config = {
@@ -34,8 +46,68 @@ export const deleteProduct = createAsyncThunk('deleteProduct', async ({ id }, { 
                 Authorization: `Bearer ${userInfo.token}`,
             }
         }
+        let imageResponse = await axios.post("/api/image/delete", payload.product_image, config);
+        const { data } = await axios.delete(`/api/products/${payload._id}`, config)
+        // console.log("imageResponse >>", imageResponse);
+        return data;
+    } catch (error) {
+        if (error.response && error.response.data.message) {
+            return rejectWithValue(error.response.data.message);
+        } else {
+            return rejectWithValue(error.message);
+        }
+    }
+})
 
-        const { data } = await axios.delete(`/api/products/${id}`, config)
+export const updateProduct = createAsyncThunk('updateProduct', async (payload, { rejectWithValue, getState }) => {
+    try {
+        const { userInfo } = getState().userLogIn;
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+            }
+        }
+        const { data } = await axios.put(`/api/products/${payload._id}`, payload, config)
+        return data;
+    } catch (error) {
+        if (error.response && error.response.data.message) {
+            return rejectWithValue(error.response.data.message);
+        } else {
+            return rejectWithValue(error.message);
+        }
+    }
+})
+
+export const deletePhotoFromDatabase = createAsyncThunk('deletePhotoAndUpdate', async (id, { getState, rejectWithValue }) => {
+    try {
+        const { userInfo } = getState().userLogIn;
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+        };
+        // Update product image data
+        let { data } = await axios.post(`/api/products/image/delete/${id}`, { product_image: { image_url: '', public_id: '' } }, config)
+        return data;
+    } catch (error) {
+        if (error.response && error.response.data.message) {
+            return rejectWithValue(error.response.data.message);
+        } else {
+            return rejectWithValue(error.message);
+        }
+    }
+})
+
+export const savePhotoToDatabase = createAsyncThunk('savePhotoToDatabase', async (payload, { getState, rejectWithValue }) => {
+    try {
+        const { userInfo } = getState().userLogIn;
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+        };
+        // Update product image data
+        let { data } = await axios.post(`/api/products/image/update/${payload._id}`, { product_image: { image_url: payload.image_url, public_id: payload.public_id } }, config)
         return data;
     } catch (error) {
         if (error.response && error.response.data.message) {
@@ -76,6 +148,11 @@ export const productsSlice = createSlice({
             state.createLoading = false;
             state.createError = null;
             state.createSuccess = false;
+        },
+        resetUpdateProduct: (state, action) => {
+            state.updateLoading = false;
+            state.updateError = null;
+            state.updateSuccess = false;
         }
     },
     extraReducers: (builder) => {
@@ -118,8 +195,45 @@ export const productsSlice = createSlice({
                 state.createLoading = false;
                 state.createError = action.payload
             })
+            // Update product
+            .addCase(updateProduct.pending, (state, action) => {
+                state.updateLoading = true;
+            })
+            .addCase(updateProduct.fulfilled, (state, action) => {
+                state.updateLoading = false;
+                state.updateSuccess = true;
+            })
+            .addCase(updateProduct.rejected, (state, action) => {
+                state.updateLoading = false;
+                state.updateError = action.payload
+            })
+            // Delete img and update
+            .addCase(deletePhotoFromDatabase.pending, (state, action) => {
+                state.deleteProductImgLoading = true;
+            })
+            .addCase(deletePhotoFromDatabase.fulfilled, (state, action) => {
+                state.deleteProductImgLoading = false;
+                state.deleteProductImgSuccess = true;
+            })
+            .addCase(deletePhotoFromDatabase.rejected, (state, action) => {
+                state.deleteProductImgLoading = false;
+                state.deleteProductImgError = action.payload
+            })
+            // Save img and update
+            .addCase(savePhotoToDatabase.pending, (state, action) => {
+                state.saveProductImgLoading = true;
+            })
+            .addCase(savePhotoToDatabase.fulfilled, (state, action) => {
+                state.saveProductImgLoading = false;
+                state.saveProductImgSuccess = true;
+            })
+            .addCase(savePhotoToDatabase.rejected, (state, action) => {
+                state.saveProductImgLoading = false;
+                state.saveProductImgError = action.payload
+            })
+
     }
 })
 
-export const { resetCreateProduct } = productsSlice.actions
+export const { resetCreateProduct, resetUpdateProduct } = productsSlice.actions
 export default productsSlice.reducer
