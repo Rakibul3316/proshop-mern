@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState, useCallback } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,7 +32,7 @@ const CreateProductPage = () => {
     uploadImgError,
     deleteImgError,
     uploadedImage,
-    deletedImage,
+    deletedImageSuccess,
   } = useSelector((state) => state.image);
 
   const handleDeleteImgByPageReload = useCallback(async () => {
@@ -67,14 +66,29 @@ const CreateProductPage = () => {
   ]);
 
   const uploadFileHandler = async (e) => {
-    const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append("file", file);
+    if (Object.keys(uploadedImage).length > 0) {
+      // If there is a previous image.
+      let publicId = {
+        public_id: uploadedImage.public_id,
+      };
+      dispatch(deletePhoto(publicId));
 
-    dispatch(uploadPhoto({ formData }));
+      // And then upload the current file.
+      const file = e.target.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+
+      dispatch(uploadPhoto({ formData }));
+    } else {
+      const file = e.target.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+
+      dispatch(uploadPhoto({ formData }));
+    }
   };
 
-  const removePreview = async (e) => {
+  const removePreview = async () => {
     let publicId = {
       public_id: uploadedImage.public_id,
     };
@@ -101,7 +115,7 @@ const CreateProductPage = () => {
       <Link to="/admin/productslist" className="btn btn-light my-3">
         Go Back
       </Link>
-      {createError && <Message>{createError}</Message>}
+      {createError && <Message variant="danger">{createError}</Message>}
       {/* <FormContainer> */}
       <h1>Create Product</h1>
       <Form onSubmit={submitHandler}>
