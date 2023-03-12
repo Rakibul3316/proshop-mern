@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { savePhotoToDatabase } from './productsSlice';
+import { deletePhotoFromDatabase } from './productsSlice';
 
 const initialState = {
     // uploaded state
@@ -48,7 +48,7 @@ export const deletePhoto = createAsyncThunk('deletePhoto', async (payload, { get
         let publicId = { public_id: payload.public_id };
         const { data } = await axios.post("/api/image/delete", publicId, config);
         if (data.result === 'ok') {
-            dispatch(savePhotoToDatabase(payload._id))
+            dispatch(deletePhotoFromDatabase(payload._id))
         }
         // return data;
     } catch (error) {
@@ -63,7 +63,14 @@ export const deletePhoto = createAsyncThunk('deletePhoto', async (payload, { get
 export const imageSlice = createSlice({
     name: 'image',
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        resetUploadPhoto: (state, action) => {
+            state.uploadImgLoading = false
+            state.uploadImgError = null
+            state.uploadedImage = {}
+            state.uploadedSuccess = false
+        }
+    },
     extraReducers: (builder) => {
         builder
             // Upload Photo
@@ -96,5 +103,5 @@ export const imageSlice = createSlice({
     }
 })
 
-// export const { } = imageSlice.actions
+export const { resetUploadPhoto } = imageSlice.actions
 export default imageSlice.reducer
