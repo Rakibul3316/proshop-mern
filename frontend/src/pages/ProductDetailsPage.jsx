@@ -49,11 +49,7 @@ const ProductDetailsPage = () => {
         <Row>
           <Col md={6}>
             <Image
-              src={
-                product.product_image.image_url
-                  ? product.product_image.image_url
-                  : product.product_image
-              }
+              src={product.product_image.image_url}
               alt={product.product_name}
               fluid
               style={{ width: "530px", height: "400px" }}

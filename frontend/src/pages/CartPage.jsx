@@ -47,7 +47,7 @@ const CartPage = () => {
                 <Row>
                   <Col md={2}>
                     <Image
-                      src={item.product_image}
+                      src={item.product_image.image_url}
                       alt={item.product_image}
                       fluid
                       rounded

@@ -100,7 +100,7 @@ const PlaceOrderPage = () => {
                       <Row>
                         <Col md={1}>
                           <Image
-                            src={item.product_image}
+                            src={item.product_image.image_url}
                             alt={item.product_name}
                             fluid
                             rounded
