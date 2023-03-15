@@ -11,7 +11,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { createOrder } from "../slices/orderSlice.js";
+import { createOrder, resetCreateOrder } from "../slices/orderSlice.js";
+import { resetCart } from "../slices/cartSlice.js";
 
 // Component
 import Message from "../components/Message.jsx";
@@ -28,9 +29,11 @@ const PlaceOrderPage = () => {
 
   useEffect(() => {
     if (success) {
+      dispatch(resetCreateOrder());
+      dispatch(resetCart());
       navigate(`/order/${orderId}`);
     }
-  }, [success, navigate, orderId]);
+  }, [success, navigate, orderId, dispatch]);
 
   const addDecimals = (num) => {
     return (Math.round(num * 100) / 100).toFixed(2);
