@@ -10,7 +10,10 @@ const orderSchema = mongoose.Schema({
         {
             product_name: { type: String, required: [true, 'Order product name is required'] },
             qty: { type: String, required: [true, 'Order product qty is required'] },
-            product_image: { type: String, required: [true, 'Order product image is required'] },
+            product_image: {
+                image_url: { type: String, required: [true, 'image url is required'] },
+                public_id: { type: String, required: [true, 'public id is required'] }
+            },
             product_price: { type: Number, required: [true, 'Order product price is required'] },
             _id: {
                 type: mongoose.Schema.Types.ObjectId,
