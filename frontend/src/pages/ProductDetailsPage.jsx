@@ -28,8 +28,10 @@ const ProductDetailsPage = () => {
   const { product, loading, error } = useSelector((state) => state.product);
 
   useEffect(() => {
-    dispatch(fetchProduct(id));
-  }, [dispatch, id]);
+    if (!product.product_name || product._id !== id) {
+      dispatch(fetchProduct(id));
+    }
+  }, [dispatch, id, product.product_name, product._id]);
 
   const addToCartHandler = () => {
     dispatch(addToCart({ id, qty: Number(qty) }));
@@ -49,7 +51,7 @@ const ProductDetailsPage = () => {
         <Row>
           <Col md={6}>
             <Image
-              src={product.product_image.image_url}
+              src={product.product_image && product.product_image.image_url}
               alt={product.product_name}
               fluid
               style={{ width: "530px", height: "400px" }}
