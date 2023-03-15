@@ -18,6 +18,8 @@ import ProductsListPage from './pages/ProductsListPage';
 import UserUpdateByAdminPage from './pages/UserUpdateByAdminPage';
 import CreateProductPage from './pages/CreateProductPage';
 import EditProduct from './pages/EditProduct';
+import OrdersListPage from './pages/OrdersListPage';
+import AdminOrderPage from './pages/AdminOrderPage';
 
 // Components 
 import Header from './components/Header';
@@ -30,11 +32,13 @@ const App = () => {
       <main>
         <Container>
           <Routes>
+            <Route path='/admin/orderslist' element={<OrdersListPage />} />
             <Route path='/admin/product/:id/edit' element={<EditProduct />} />
             <Route path='/admin/user/:id/edit' element={<UserUpdateByAdminPage />} />
             <Route path='/admin/userslist' element={<UsersListPage />} />
             <Route path='/admin/productslist' element={<ProductsListPage />} />
             <Route path='/admin/product/create' element={<CreateProductPage />} />
+            <Route path='/admin/order/:id' element={<AdminOrderPage />} />
             <Route path='/order/:id' element={<OrderPage />} />
             <Route path='/placeorder' element={<PlaceOrderPage />} />
             <Route path='/payment' element={<PaymentPage />} />
