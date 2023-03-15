@@ -93,6 +93,11 @@ export const cartSlice = createSlice({
                 ...state,
                 paymentMethod: action.payload
             }
+        },
+        resetCart: (state, action) => {
+            state.cartItems = []
+            state.shippingAddress = {}
+            state.paymentMethod = ''
         }
     },
     extraReducers: (builder) => {
@@ -103,5 +108,5 @@ export const cartSlice = createSlice({
     }
 })
 
-export const { cartAddItem, cartRemoveItem, saveShippingAddress, paymentMethod } = cartSlice.actions
+export const { cartAddItem, cartRemoveItem, saveShippingAddress, paymentMethod, resetCart } = cartSlice.actions
 export default cartSlice.reducer
