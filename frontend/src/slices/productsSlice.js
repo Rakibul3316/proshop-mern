@@ -25,9 +25,9 @@ const initialState = {
 }
 
 // First, create the thunk
-export const fetchProducts = createAsyncThunk('fetchProducts', async (_, { rejectWithValue }) => {
+export const fetchProducts = createAsyncThunk('fetchProducts', async (keyword, { rejectWithValue }) => {
     try {
-        const response = await axios.get('/api/products')
+        const response = await axios.get(`/api/products?keyword=${keyword}`)
         return [...response.data.data]
     } catch (error) {
         if (error.response && error.response.data.message) {
