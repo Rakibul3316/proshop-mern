@@ -48,6 +48,7 @@ const App = () => {
             <Route path='/login' element={<LoginPage />} />
             <Route path='/products/:id' element={<ProductDetailsPage />} />
             <Route path='/cart' element={<CartPage />} />
+            <Route path='/search/:keyword' element={<HomePage />} />
             <Route path='/' element={<HomePage />} />
           </Routes>
         </Container>
