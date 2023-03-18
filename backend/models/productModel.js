@@ -4,6 +4,11 @@ const reviewSchema = mongoose.Schema({
     reviewer_name: { type: String, required: [true, 'Reviewer name is required'] },
     reviewer_rating: { type: Number, required: [true, 'Reviewer rating is required'] },
     reviewer_comment: { type: String, required: [true, 'Reviewer comment is required'] },
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: [true, 'User id is required'],
+        ref: 'userData'
+    },
 }, {
     timestamps: true
 })
