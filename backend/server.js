@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import colors from 'colors';
+import morgan from 'morgan';
 import cloudinary from 'cloudinary';
 
 // Middleware
@@ -15,6 +16,10 @@ import imageRoutes from './routes/imageRoutes.js';
 
 // Initialize app
 const app = express()
+
+if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'));
+}
 
 // Body parser
 app.use(express.json())
