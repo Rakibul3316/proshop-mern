@@ -8,15 +8,17 @@ import { fetchProducts } from "../slices/productsSlice";
 import Product from "../components/Product";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import { useParams } from "react-router-dom";
 
 const HomePage = () => {
   const dispatch = useDispatch();
+  const { keyword } = useParams();
   const productsList = useSelector((state) => state.products);
   const { products, loading, error } = productsList;
 
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+    dispatch(fetchProducts(keyword));
+  }, [dispatch, keyword]);
 
   return (
     <>
