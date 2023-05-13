@@ -6,6 +6,8 @@ const initialState = {
     error: null,
     success: false,
     products: [],
+    page: null,
+    pages: null,
     // For createProduct thunk
     createLoading: false,
     createError: null,
@@ -22,13 +24,18 @@ const initialState = {
     saveProductImgLoading: false,
     saveProductImgError: null,
     saveProductImgSuccess: false,
+    // Product review
+    productReviewLoading: false,
+    productReviewError: null,
+    productReviewSuccess: false
 }
 
 // First, create the thunk
-export const fetchProducts = createAsyncThunk('fetchProducts', async (keyword, { rejectWithValue }) => {
+export const fetchProducts = createAsyncThunk('fetchProducts', async ({keyword = '', pageNumber = ''}, { rejectWithValue }) => {
+    // console.log("key >>", keyword)
     try {
-        const response = await axios.get(`/api/products?keyword=${keyword}`)
-        return [...response.data.data]
+        const {data} = await axios.get(`/api/products?keyword=${keyword}&pageNumber=${pageNumber}`)
+        return data;
     } catch (error) {
         if (error.response && error.response.data.message) {
             return rejectWithValue(error.response.data.message);
@@ -140,6 +147,27 @@ export const createProduct = createAsyncThunk('createProduct', async (product, {
     }
 })
 
+export const createReview = createAsyncThunk('createReview', async (payload, { rejectWithValue, getState }) => {
+    try {
+        const { userInfo } = getState().userLogIn;
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`,
+            }
+        }
+        let reviewRating = { rating: payload.rating, comment: payload.comment }
+        const { data } = await axios.post(`/api/products/${payload._id}/reviews`, reviewRating, config)
+        return data;
+    } catch (error) {
+        if (error.response && error.response.data.message) {
+            return rejectWithValue(error.response.data.message);
+        } else {
+            return rejectWithValue(error.message);
+        }
+    }
+})
+
 export const productsSlice = createSlice({
     name: 'products',
     initialState: initialState,
@@ -158,6 +186,11 @@ export const productsSlice = createSlice({
             state.deleteProductImgLoading = false
             state.deleteProductImgError = null
             state.deleteProductImgSuccess = false
+        },
+        resetCreateReview: (state, action) => {
+            state.productReviewLoading = false
+            state.productReviewError = null
+            state.productReviewSuccess = false
         }
     },
     extraReducers: (builder) => {
@@ -169,7 +202,9 @@ export const productsSlice = createSlice({
             })
             .addCase(fetchProducts.fulfilled, (state, action) => {
                 state.loading = false;
-                state.products = action.payload;
+                state.products = action.payload.data;
+                state.page = action.payload.page;
+                state.pages = action.payload.pages;   
                 state.success = false
             })
             .addCase(fetchProducts.rejected, (state, action) => {
@@ -236,9 +271,21 @@ export const productsSlice = createSlice({
                 state.saveProductImgLoading = false;
                 state.saveProductImgError = action.payload
             })
+            // Create review
+            .addCase(createReview.pending, (state, action) => {
+                state.productReviewLoading = true;
+            })
+            .addCase(createReview.fulfilled, (state, action) => {
+                state.productReviewLoading = false;
+                state.productReviewSuccess = true;
+            })
+            .addCase(createReview.rejected, (state, action) => {
+                state.productReviewLoading = false;
+                state.productReviewError = action.payload
+            })
 
     }
 })
 
-export const { resetCreateProduct, resetUpdateProduct, resetDeletePhotoFromDatabase } = productsSlice.actions
+export const { resetCreateProduct, resetUpdateProduct, resetDeletePhotoFromDatabase, resetCreateReview } = productsSlice.actions
 export default productsSlice.reducer

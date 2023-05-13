@@ -20,14 +20,17 @@ const ProductsList = () => {
 
   const allProducts = useSelector((state) => state.products);
   const { loading, products, error, success } = allProducts;
+  // console.log('error >>', error);
+
+  let keyword = '', pageNumber = '';
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
-      dispatch(fetchProducts());
+      dispatch(fetchProducts({ keyword, pageNumber }));
     } else {
       navigate("/login");
     }
-  }, [dispatch, userInfo, navigate, success]);
+  }, [dispatch, userInfo, navigate, success, keyword, pageNumber]);
 
   const deleteHandler = (product) => {
     if (window.confirm("Are you sure ?")) {

@@ -7,8 +7,11 @@ import productData from '../models/productModel.js';
 // @route       GET /api/products?keyword=''
 // @access      Public
 const getProducts = asyncHandler(async (req, res) => {
+    const pageSize = 4;
+    const page = Number(req.query.pageNumber) || 1
     let keyword = req.query.keyword;
-    if (keyword === 'undefined') {
+
+    if (keyword === '') {
         keyword = {}
     } else {
         keyword = {
@@ -19,10 +22,13 @@ const getProducts = asyncHandler(async (req, res) => {
         }
     }
 
-    const products = await productData.find({ ...keyword });
+    const count = await productData.countDocuments({...keyword})
+    const products = await productData.find({ ...keyword }).limit(pageSize).skip(pageSize * (page - 1));
 
     res.json({
         data: products,
+        page,
+        pages: Math.ceil(count / pageSize),
         success: true
     })
 })
@@ -173,7 +179,7 @@ const createProductReview = asyncHandler(async (req, res) => {
     const product = await productData.findById(req.params.id);
 
     if (product) {
-        const alreadyReviewed = product.product_reviews.find((r) => r.user_id.toString() === req.user._id)
+        const alreadyReviewed = product.product_reviews.find((r) => r.user_id.toString() === req.user._id.toString())
 
         if (alreadyReviewed) {
             res.status(400) // Bad request
